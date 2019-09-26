@@ -1,6 +1,6 @@
 # StrategyPattern
 
-Strategy pattern
+Strategy pattern<br/>
 Write a program that converts text comb to secret writing, and this secret writing as well
 to translate it back into plain text. The user should be able to choose which secret code to use.
 he or she wants to use:
