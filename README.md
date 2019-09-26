@@ -30,3 +30,7 @@ the javaFX combobox.
 Write simple JavaFX code without using the scene builder or FMXL!
 Possible expansion:
 Think of your own (simple) secret writing algorithm and add it to your application.
+
+In UI:
+First choose which secret code to use.
+Choose whether to encode or decode.
