@@ -4,6 +4,7 @@ public abstract class CryptoContext implements CryptoStrategy {
     public CryptoContext(CryptoStrategy c){
         setCryptoStrategy(c);
     }
+
     public CryptoContext(){
 
     }
