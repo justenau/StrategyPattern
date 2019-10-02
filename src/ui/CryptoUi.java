@@ -1,9 +1,6 @@
 package ui;
 
-import domain.CaesarsStrategy;
-import domain.CryptoContext;
-import domain.CryptoStrategy;
-import domain.ReflectionStrategy;
+import domain.*;
 import jdk.nashorn.api.tree.CaseTree;
 
 import javax.swing.*;
@@ -39,7 +36,7 @@ public class CryptoUi {
     }
 
     public boolean chooseSecretCode(){
-        String[] choices = { "CaesarsStrategy","ReflectionStrategy"};
+        String[] choices = { "CaesarsStrategy","ReflectionStrategy","SwitchStrategy"};
         String input = (String) JOptionPane.showInputDialog(null, "Select Strategy type:",
                 "", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
         if (input!=null) {
@@ -49,6 +46,9 @@ public class CryptoUi {
                     break;
                 case "ReflectionStrategy":
                     cryptoContext.setCryptoStrategy(new ReflectionStrategy());
+                    break;
+                case "SwitchStrategy":
+                    cryptoContext.setCryptoStrategy(new SwitchStrategy());
                     break;
             }
             return true;
