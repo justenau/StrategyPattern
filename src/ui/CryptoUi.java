@@ -4,55 +4,71 @@ import domain.CaesarsStrategy;
 import domain.CryptoContext;
 import domain.CryptoStrategy;
 import domain.ReflectionStrategy;
+import jdk.nashorn.api.tree.CaseTree;
 
 import javax.swing.*;
 
 public class CryptoUi {
-    public void CryptoContext(){
-        CryptoContext cryptoContext;
+
+    private CryptoContext cryptoContext;
+
+    public CryptoUi(){
+        cryptoContext = new CryptoContext();
     }
 
     public void showUi(){
-        chooseSecretCode();
-    }
-
-    public void chooseSecretCode(){
-        String code = JOptionPane.showInputDialog("Enter your code to encode or decode:");
-        if (code.isEmpty()){
-            JOptionPane.showMessageDialog(null, "The code cannot be empty!");
-            return;
+        while(true) {
+            try {
+                String message = JOptionPane.showInputDialog("Enter your message to encode or decode:");
+                if (message.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "The message cannot be empty!");
+                    continue;
+                }
+                if(!chooseSecretCode()){
+                    JOptionPane.showMessageDialog(null, "You must choose a secret code!");
+                    continue;
+                };
+                if(!chooseOperation(message)){
+                    JOptionPane.showMessageDialog(null, "You must choose an operation!");
+                    continue;
+                };
+            } catch (NullPointerException e){
+                return;
+            }
         }
-        chooseOperation(code);
     }
 
-    public void chooseOperation(String text){
+    public boolean chooseSecretCode(){
         String[] choices = { "CaesarsStrategy","ReflectionStrategy"};
         String input = (String) JOptionPane.showInputDialog(null, "Select Strategy type:",
                 "", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
-        switch(input){
-            case "CaesarsStrategy":
-                CryptoContext();
-                CryptoStrategy coding = new CaesarsStrategy();
-                chooseType(coding,text);
-                break;
-            case "ReflectionStrategy":
-                CryptoStrategy codings = new ReflectionStrategy();
-                chooseType(codings,text);
-                break;
-        }
+        if (input!=null) {
+            switch (input) {
+                case "CaesarsStrategy":
+                    cryptoContext.setCryptoStrategy(new CaesarsStrategy());
+                    break;
+                case "ReflectionStrategy":
+                    cryptoContext.setCryptoStrategy(new ReflectionStrategy());
+                    break;
+            }
+            return true;
+        } else return false;
     }
 
-    public void chooseType(CryptoStrategy cryptoStrategy,String text){
+    public boolean chooseOperation(String text){
         String[] choices = { "Encode","Decode"};
         String input = (String) JOptionPane.showInputDialog(null, "Select coding type:",
                 "", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
-        switch(input){
-            case "Encode":
-                JOptionPane.showMessageDialog(null, cryptoStrategy.encode(text));
-                break;
-            case "Decode":
-                JOptionPane.showMessageDialog(null, cryptoStrategy.decode(text));
-                break;
-        }
+        if (input!=null) {
+            switch (input) {
+                case "Encode":
+                    JOptionPane.showMessageDialog(null, cryptoContext.performEncoding(text));
+                    break;
+                case "Decode":
+                    JOptionPane.showMessageDialog(null, cryptoContext.performDecoding(text));
+                    break;
+            }
+            return true;
+        } else return false;
     }
 }
