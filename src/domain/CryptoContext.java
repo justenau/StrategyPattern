@@ -1,23 +1,22 @@
 package domain;
 
-public abstract class CryptoContext implements CryptoStrategy {
+public class CryptoContext {
+    private CryptoStrategy cryptoStrategy;
+
+    public CryptoContext(){ }
     public CryptoContext(CryptoStrategy c){
         setCryptoStrategy(c);
     }
 
-    public CryptoContext(){
-
-    }
-
-    public void setCryptoStrategy(CryptoStrategy c){
-
+    public void setCryptoStrategy(CryptoStrategy cryptoStrategy){
+        this.cryptoStrategy =cryptoStrategy;
     }
 
     public String performEncoding(String text){
-        return encode(text);
+        return cryptoStrategy.encode(text);
     }
 
     public String performDecoding(String text){
-        return decode(text);
+        return cryptoStrategy.decode(text);
     }
 }
