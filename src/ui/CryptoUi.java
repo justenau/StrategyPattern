@@ -4,6 +4,8 @@ import domain.*;
 import jdk.nashorn.api.tree.CaseTree;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class CryptoUi {
 
@@ -36,23 +38,15 @@ public class CryptoUi {
     }
 
     public boolean chooseSecretCode(){
-        String[] choices = { "CaesarsStrategy","ReflectionStrategy","SwitchStrategy"};
+        String[] choices = Stream.of(StrategyEnum.values()).map(e->e.getStrategyName().substring(0,e.getStrategyName().indexOf(' '))).toArray(String[]::new);
         String input = (String) JOptionPane.showInputDialog(null, "Select Strategy type:",
                 "", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
         if (input!=null) {
-            switch (input) {
-                case "CaesarsStrategy":
-                    cryptoContext.setCryptoStrategy(new CaesarsStrategy());
-                    break;
-                case "ReflectionStrategy":
-                    cryptoContext.setCryptoStrategy(new ReflectionStrategy());
-                    break;
-                case "SwitchStrategy":
-                    cryptoContext.setCryptoStrategy(new SwitchStrategy());
-                    break;
-            }
-            return true;
-        } else return false;
+            CryptoStrategy cryptoStrategy = StrategyFactory.createStrategy(input);
+            cryptoContext.setCryptoStrategy(cryptoStrategy);
+           return true;
+        }
+        else return false;
     }
 
     public boolean chooseOperation(String text){
